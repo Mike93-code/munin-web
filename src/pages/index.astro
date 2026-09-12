@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import Features from '../components/Features.astro';
 // PLACEHOLDER icon: this is the app's current (blue) icon. The final gold/raven
 // "Munin" icon is a separate pending task; swap this import when it exists.
 import appIcon from '../assets/app-icon-placeholder.png';
@@ -55,6 +56,8 @@ const trustChips = ['No account', 'No cloud', 'Works offline'];
       </ul>
     </section>
 
+    <Features />
+
     <footer class="foot">
       <a href="/privacy">Privacy Policy</a>
       <span aria-hidden="true">·</span>
@@ -64,13 +67,13 @@ const trustChips = ['No account', 'No cloud', 'Works offline'];
 
   <style>
     .home {
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: 1fr auto;
       padding: 24px;
     }
     .hero {
-      align-self: center;
+      min-height: 86vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       max-width: 36rem;
       margin: 0 auto;
       text-align: center;
@@ -164,7 +167,7 @@ const trustChips = ['No account', 'No cloud', 'Works offline'];
       left: -0.75rem;
     }
     .foot {
-      padding: 1.5rem 0 0.5rem;
+      padding: 4rem 0 0.5rem;
       font-size: 0.85rem;
       color: var(--muted);
       display: flex;

@@ -1,0 +1,106 @@
+---
+import PhoneFrame from './PhoneFrame.astro';
+
+type Variant = 'lines' | 'streak' | 'calendar' | 'privacy';
+interface Feature {
+  variant: Variant;
+  screenName: string;
+  title: string;
+  body: string;
+}
+
+// English copy (site default). Swedish translation arrives with the language
+// switch (Story 5).
+const features: Feature[] = [
+  {
+    variant: 'lines',
+    screenName: 'Today',
+    title: 'Five lines a day',
+    body: 'A calm, focused space — write five things you are grateful for. No feeds, no clutter, no endless scrolling. Just today.',
+  },
+  {
+    variant: 'streak',
+    screenName: 'Streak',
+    title: 'Build a gentle habit',
+    body: 'Come back each evening and watch your streak grow, one day at a time. An optional reminder gives you a quiet nudge — never a nag.',
+  },
+  {
+    variant: 'calendar',
+    screenName: 'Calendar',
+    title: 'Look back anytime',
+    body: 'Every day is saved to your calendar. Scroll back through months and years and see how much there was to be grateful for.',
+  },
+  {
+    variant: 'privacy',
+    screenName: 'Private',
+    title: '100% private',
+    body: 'No account, no cloud, no tracking. Your notes live on your phone and nowhere else — that is the whole idea.',
+  },
+];
+---
+
+<section class="features" aria-label="Features">
+  {
+    features.map((f, i) => (
+      <article class={i % 2 === 1 ? 'row reverse' : 'row'}>
+        <div class="art">
+          <PhoneFrame variant={f.variant} screenName={f.screenName} />
+        </div>
+        <div class="copy">
+          <h2>{f.title}</h2>
+          <p>{f.body}</p>
+        </div>
+      </article>
+    ))
+  }
+</section>
+
+<style>
+  .features {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+    display: grid;
+    gap: 4.5rem;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .art {
+    display: flex;
+    justify-content: center;
+  }
+  .copy h2 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 600;
+  }
+  .copy p {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--ink);
+    max-width: 32ch;
+  }
+
+  @media (max-width: 640px) {
+    .row,
+    .row.reverse {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      text-align: center;
+    }
+    .copy p {
+      max-width: none;
+    }
+  }
+
+  /* On wide screens every other row flips the phone to the right. */
+  @media (min-width: 641px) {
+    .row.reverse .art {
+      order: 2;
+    }
+  }
+</style>
