@@ -2,9 +2,8 @@
 import { Image } from 'astro:assets';
 import Features from './Features.astro';
 import { appStoreUrl, type LandingContent } from '../data/site';
-// PLACEHOLDER icon: the app's current (blue) icon. The final gold/raven "Munin"
-// icon is a separate pending task; swap this import when it exists.
-import appIcon from '../assets/app-icon-placeholder.png';
+// The Munin app icon (gold feather on dark ground), shared with the iOS app.
+import appIcon from '../assets/app-icon.png';
 
 interface Props {
   content: LandingContent;
