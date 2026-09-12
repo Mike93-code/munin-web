@@ -13,7 +13,7 @@ const { features } = Astro.props;
     features.map((f, i) => (
       <article class={i % 2 === 1 ? 'row reverse' : 'row'}>
         <div class="art">
-          <PhoneFrame variant={f.variant} screenName={f.screenName} note={f.note} />
+          <PhoneFrame variant={f.variant} screen={f.screen} />
         </div>
         <div class="copy">
           <h2>{f.title}</h2>

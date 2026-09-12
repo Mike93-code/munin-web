@@ -7,14 +7,37 @@ export const appStoreUrl: string | null = null;
 
 export type FeatureVariant = 'lines' | 'streak' | 'calendar' | 'privacy';
 
+/**
+ * Text shown inside the phone mockup for each feature. These are faithful
+ * mockups of the app's real screens (in the app's default warm "journal"
+ * theme), not photographic screenshots — for the App Store listing itself,
+ * real device screenshots are still captured separately.
+ */
+export interface FeatureScreen {
+  /** Screen title (e.g. "Idag" / "Today"). */
+  title: string;
+  /** lines: header date line. */
+  date?: string;
+  /** lines: the five gratitude rows (freeform, in this language). */
+  entries?: string[];
+  /** lines: gold footnote shown when all five are filled. */
+  footnote?: string;
+  /** streak: big number + its unit + the "longest" line. */
+  streakNumber?: string;
+  streakUnit?: string;
+  streakLongest?: string;
+  /** calendar: month label + weekday initials. */
+  month?: string;
+  weekdays?: string[];
+  /** privacy: reassurance checklist. */
+  bullets?: string[];
+}
+
 export interface Feature {
   variant: FeatureVariant;
-  /** Small screen name shown inside the phone frame. */
-  screenName: string;
   title: string;
   body: string;
-  /** Optional caption drawn inside the phone motif (streak / privacy). */
-  note?: string;
+  screen: FeatureScreen;
 }
 
 export interface LandingContent {
@@ -23,16 +46,12 @@ export interface LandingContent {
   kicker: string;
   name: string;
   tagline: string;
-  /** Shown when appStoreUrl is not set yet. */
   storeSoon: string;
-  /** Shown (as a real button) once appStoreUrl is set. */
   storeCta: string;
   chips: string[];
   features: Feature[];
-  /** Link to this same page in the other language. */
   langSwitchHref: string;
   langSwitchLabel: string;
-  /** Footer privacy link, in this language. */
   privacyHref: string;
   privacyLabel: string;
 }
@@ -54,29 +73,50 @@ export const landingEn: LandingContent = {
   features: [
     {
       variant: 'lines',
-      screenName: 'Today',
       title: 'Five lines a day',
       body: 'A calm, focused space — write five things you are grateful for. No feeds, no clutter, no endless scrolling. Just today.',
+      screen: {
+        title: 'Today',
+        date: 'Tuesday 12 Sept',
+        entries: [
+          'Coffee on the balcony in the morning sun',
+          'Mum called for no reason',
+          'My back felt strong on the run',
+          'The smell of rain on the way home',
+          'Dinner with friends tonight',
+        ],
+        footnote: 'Five for five — what a lovely day.',
+      },
     },
     {
       variant: 'streak',
-      screenName: 'Streak',
       title: 'Build a gentle habit',
       body: 'Come back each evening and watch your streak grow, one day at a time. An optional reminder gives you a quiet nudge — never a nag.',
-      note: 'day streak',
+      screen: {
+        title: 'Current streak',
+        streakNumber: '12',
+        streakUnit: 'days in a row',
+        streakLongest: 'Longest streak · 21 days',
+      },
     },
     {
       variant: 'calendar',
-      screenName: 'Calendar',
       title: 'Look back anytime',
       body: 'Every day is saved to your calendar. Scroll back through months and years and see how much there was to be grateful for.',
+      screen: {
+        title: 'Calendar',
+        month: 'September',
+        weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+      },
     },
     {
       variant: 'privacy',
-      screenName: 'Private',
       title: '100% private',
       body: 'No account, no cloud, no tracking. Your notes live on your phone and nowhere else — that is the whole idea.',
-      note: 'On your device',
+      screen: {
+        title: 'Everything stays private',
+        bullets: ['No account', 'No cloud storage', 'No tracking'],
+      },
     },
   ],
   langSwitchHref: '/sv',
@@ -102,29 +142,50 @@ export const landingSv: LandingContent = {
   features: [
     {
       variant: 'lines',
-      screenName: 'Idag',
       title: 'Fem rader om dagen',
       body: 'Ett lugnt, fokuserat utrymme — skriv fem saker du är tacksam för. Inga flöden, inget brus, inget oändligt scrollande. Bara idag.',
+      screen: {
+        title: 'Idag',
+        date: 'Tisdag 12 sep',
+        entries: [
+          'Kaffet på balkongen i morgonsolen',
+          'Mamma ringde utan anledning',
+          'Ryggen kändes stark på löprundan',
+          'Doften av regn på väg hem',
+          'Middag med vänner ikväll',
+        ],
+        footnote: 'Fem för fem, vilken fin dag.',
+      },
     },
     {
       variant: 'streak',
-      screenName: 'Streak',
       title: 'Bygg en mild vana',
       body: 'Kom tillbaka varje kväll och se din streak växa, en dag i taget. En valfri påminnelse ger dig en tyst knuff — aldrig tjat.',
-      note: 'dagar i rad',
+      screen: {
+        title: 'Nuvarande streak',
+        streakNumber: '12',
+        streakUnit: 'dagar i rad',
+        streakLongest: 'Längsta streak · 21 dagar',
+      },
     },
     {
       variant: 'calendar',
-      screenName: 'Kalender',
       title: 'Blicka tillbaka när du vill',
       body: 'Varje dag sparas i din kalender. Bläddra tillbaka genom månader och år och se hur mycket det fanns att vara tacksam för.',
+      screen: {
+        title: 'Kalender',
+        month: 'September',
+        weekdays: ['M', 'T', 'O', 'T', 'F', 'L', 'S'],
+      },
     },
     {
       variant: 'privacy',
-      screenName: 'Privat',
       title: '100% privat',
       body: 'Inget konto, inget moln, ingen spårning. Dina anteckningar finns i din telefon och ingen annanstans — det är hela poängen.',
-      note: 'På din enhet',
+      screen: {
+        title: 'Allt stannar privat',
+        bullets: ['Inget konto', 'Ingen molnlagring', 'Ingen spårning'],
+      },
     },
   ],
   langSwitchHref: '/',

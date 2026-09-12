@@ -1,99 +1,124 @@
 ---
-// A phone-shaped placeholder for an app screenshot. Each variant draws a light,
-// on-brand motif hinting at the real screen. When real screenshots are ready,
-// this component can take an image instead of the motif (Story: screenshots).
+import type { FeatureScreen, FeatureVariant } from '../data/site';
+// A phone showing a faithful mockup of the app's real screen (rendered in the
+// app's default warm "journal" theme). Not a photographic screenshot — real
+// device screenshots are captured separately for the App Store listing.
 interface Props {
-  screenName: string;
-  variant: 'lines' | 'streak' | 'calendar' | 'privacy';
-  /** Localized caption inside the streak / privacy motifs. */
-  note?: string;
+  variant: FeatureVariant;
+  screen: FeatureScreen;
 }
-const { screenName, variant, note } = Astro.props;
-const streakNote = note ?? 'day streak';
-const privacyNote = note ?? 'On your device';
+const { variant, screen } = Astro.props;
 const romans = ['i', 'ii', 'iii', 'iv', 'v'];
-// 28 cells for a mini month grid; a few marked as "filled".
-const days = Array.from({ length: 28 }, (_, i) => i);
-const filled = new Set([2, 3, 4, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 25]);
+// Calendar: a month filled up to "today" (the 12th).
+const calLeadBlanks = 6;
+const calDays = Array.from({ length: 30 }, (_, i) => i + 1);
 ---
 
-<div class="phone" role="img" aria-label={`Placeholder preview of the ${screenName} screen`}>
+<div class="phone" role="img" aria-label={`Preview of the ${screen.title} screen`}>
   <span class="notch" aria-hidden="true"></span>
-  <div class="screen">
-    <div class="motif">
-      {
-        variant === 'lines' && (
-          <ul class="lines">
-            {romans.map((r) => (
+  <div class={`screen v-${variant}`}>
+    {
+      variant === 'lines' && (
+        <div class="idag">
+          <div class="bar">
+            <span class="h">{screen.title}</span>
+            <span class="count">5/5</span>
+          </div>
+          <p class="date">{screen.date}</p>
+          <ul class="rows">
+            {screen.entries?.map((e, i) => (
               <li>
-                <span class="roman">{r}</span>
-                <span class="bar" />
+                <span class="rn">{romans[i]}</span>
+                <span class="txt">{e}</span>
               </li>
             ))}
           </ul>
-        )
-      }
-      {
-        variant === 'streak' && (
-          <div class="streak">
-            <svg viewBox="0 0 24 24" width="44" height="44" aria-hidden="true">
-              <path
-                fill="currentColor"
-                d="M12 2c1 3-1 4-2 6-1-1-1-2-1-3-2 2-4 4-4 8a7 7 0 0 0 14 0c0-3-2-5-3-7-1 2-2 3-3 3 1-3 3-5 2-7z"
-              />
-            </svg>
-            <span class="big">12</span>
-            <span class="small">{streakNote}</span>
+          <p class="foot">{screen.footnote}</p>
+        </div>
+      )
+    }
+    {
+      variant === 'streak' && (
+        <div class="streak">
+          <span class="h">{screen.title}</span>
+          <svg class="flame" viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M12 2c1 3-1 4-2 6-1-1-1-2-1-3-2 2-4 4-4 8a7 7 0 0 0 14 0c0-3-2-5-3-7-1 2-2 3-3 3 1-3 3-5 2-7z"
+            />
+          </svg>
+          <div class="big">
+            {screen.streakNumber}
+            <small>{screen.streakUnit}</small>
           </div>
-        )
-      }
-      {
-        variant === 'calendar' && (
-          <div class="cal">
-            {days.map((d) => (
-              <span class={filled.has(d) ? 'cell on' : 'cell'} />
+          <div class="week">
+            {Array.from({ length: 7 }, (_, i) => (
+              <span class={i < 5 ? 'd on' : 'd'} />
             ))}
           </div>
-        )
-      }
-      {
-        variant === 'privacy' && (
-          <div class="privacy">
-            <svg viewBox="0 0 24 24" width="46" height="46" aria-hidden="true">
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                d="M7 10V7a5 5 0 0 1 10 0v3"
-              />
-              <rect
-                x="5"
-                y="10"
-                width="14"
-                height="10"
-                rx="2"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-              />
-              <circle cx="12" cy="15" r="1.4" fill="currentColor" />
-            </svg>
-            <span class="small">{privacyNote}</span>
+          <span class="longest">{screen.streakLongest}</span>
+        </div>
+      )
+    }
+    {
+      variant === 'calendar' && (
+        <div class="cal">
+          <div class="bar">
+            <span class="h">{screen.title}</span>
+            <span class="mon">{screen.month}</span>
           </div>
-        )
-      }
-    </div>
-    <p class="screen-name">{screenName}</p>
+          <div class="wk">
+            {screen.weekdays?.map((w) => <span>{w}</span>)}
+          </div>
+          <div class="grid">
+            {Array.from({ length: calLeadBlanks }, () => (
+              <span class="cell blank" />
+            ))}
+            {calDays.map((d) => (
+              <span class={d < 12 ? 'cell on' : d === 12 ? 'cell today' : 'cell'}>
+                {d}
+              </span>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    {
+      variant === 'privacy' && (
+        <div class="priv">
+          <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              d="M7 10V7a5 5 0 0 1 10 0v3"
+            />
+            <rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="12" cy="15" r="1.4" fill="currentColor" />
+          </svg>
+          <span class="h">{screen.title}</span>
+          <ul class="checks">
+            {screen.bullets?.map((b) => (
+              <li>
+                <span class="tick">✓</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
   </div>
 </div>
 
 <style>
+  /* --- device bezel --- */
   .phone {
     position: relative;
-    width: 200px;
-    aspect-ratio: 200 / 410;
+    width: 210px;
+    aspect-ratio: 210 / 430;
     margin: 0 auto;
-    border-radius: 32px;
+    border-radius: 34px;
     padding: 10px;
     background: linear-gradient(160deg, #2a2f3d, #171b24);
     box-shadow:
@@ -105,111 +130,243 @@ const filled = new Set([2, 3, 4, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 25]);
     top: 16px;
     left: 50%;
     transform: translateX(-50%);
-    width: 74px;
+    width: 78px;
     height: 18px;
     border-radius: 0 0 12px 12px;
     background: #0d0f15;
-    z-index: 2;
-  }
-  .screen {
-    height: 100%;
-    border-radius: 24px;
-    background: radial-gradient(120% 80% at 50% 0%, #1d222e, var(--bg));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    padding: 2.25rem 1.1rem 1.5rem;
-    overflow: hidden;
-  }
-  .motif {
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 130px;
-    width: 100%;
-  }
-  .screen-name {
-    margin: 0;
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
+    z-index: 3;
   }
 
-  /* lines (Idag) */
-  .lines {
+  /* --- app "journal" light theme (matches the app default) --- */
+  .screen {
+    --j-bg: #f5eedc;
+    --j-surface: #fbf7ec;
+    --j-text: #3d2b1f;
+    --j-muted: #8a7660;
+    --j-border: #e4d6bc;
+    --j-gold: #b8860b;
+    height: 100%;
+    border-radius: 26px;
+    background: var(--j-bg);
+    color: var(--j-text);
+    padding: 30px 14px 16px;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .screen .h {
+    font-weight: 700;
+    color: var(--j-text);
+  }
+
+  /* --- Idag --- */
+  .idag {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .idag .bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .idag .bar .h {
+    font-size: 16px;
+  }
+  .idag .count {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--j-gold);
+    border: 1px solid var(--j-gold);
+    border-radius: 999px;
+    padding: 1px 7px;
+  }
+  .idag .date {
+    margin: 1px 0 9px;
+    font-size: 9px;
+    color: var(--j-muted);
+  }
+  .idag .rows {
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%;
     display: grid;
-    gap: 0.6rem;
-  }
-  .lines li {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .roman {
-    width: 1.4rem;
-    text-align: right;
-    font-size: 0.7rem;
-    color: var(--gold);
-  }
-  .bar {
+    gap: 6px;
     flex: 1;
-    height: 7px;
-    border-radius: 4px;
-    background: rgba(244, 241, 232, 0.12);
   }
-  .lines li:nth-child(-n + 3) .bar {
-    background: rgba(212, 175, 55, 0.4);
+  .idag .rows li {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    background: var(--j-surface);
+    border: 1px solid var(--j-border);
+    border-radius: 9px;
+    padding: 6px 8px;
+  }
+  .idag .rn {
+    width: 14px;
+    flex: none;
+    text-align: center;
+    font-size: 10px;
+    font-style: italic;
+    color: var(--j-gold);
+  }
+  .idag .txt {
+    font-size: 9.5px;
+    color: var(--j-text);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .idag .foot {
+    margin: 9px 0 0;
+    text-align: center;
+    font-size: 9.5px;
+    font-style: italic;
+    color: var(--j-gold);
   }
 
-  /* streak */
+  /* --- streak --- */
   .streak {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.15rem;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .streak .h {
+    font-size: 11px;
+    color: var(--j-muted);
+    font-weight: 600;
+  }
+  .streak .flame {
+    color: var(--j-gold);
   }
   .streak .big {
-    font-size: 2.4rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.1;
-  }
-  .streak .small,
-  .privacy .small {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  /* calendar */
-  .cal {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    width: 100%;
-    max-width: 150px;
-  }
-  .cell {
-    aspect-ratio: 1;
-    border-radius: 3px;
-    background: rgba(244, 241, 232, 0.1);
-  }
-  .cell.on {
-    background: rgba(212, 175, 55, 0.55);
-  }
-
-  /* privacy */
-  .privacy {
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 3px;
+  }
+  .streak .big small {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--j-muted);
+  }
+  .streak .week {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .streak .d {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--j-border);
+  }
+  .streak .d.on {
+    background: var(--j-gold);
+  }
+  .streak .longest {
+    margin-top: 6px;
+    font-size: 9px;
+    color: var(--j-muted);
+  }
+
+  /* --- calendar --- */
+  .cal .bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .cal .bar .h {
+    font-size: 15px;
+  }
+  .cal .mon {
+    font-size: 9px;
+    color: var(--j-muted);
+  }
+  .cal .wk {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+  .cal .wk span {
+    text-align: center;
+    font-size: 7.5px;
+    color: var(--j-muted);
+  }
+  .cal .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+  .cal .cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7.5px;
+    color: var(--j-muted);
+    border-radius: 5px;
+    background: var(--j-surface);
+    border: 1px solid var(--j-border);
+  }
+  .cal .cell.blank {
+    background: transparent;
+    border: 0;
+  }
+  .cal .cell.on {
+    background: rgba(184, 134, 11, 0.55);
+    border-color: transparent;
+    color: #fff;
+  }
+  .cal .cell.today {
+    background: var(--j-bg);
+    border: 1.5px solid var(--j-gold);
+    color: var(--j-gold);
+    font-weight: 700;
+  }
+
+  /* --- privacy --- */
+  .priv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    color: var(--j-gold);
+  }
+  .priv .h {
+    font-size: 13px;
+  }
+  .priv .checks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 7px;
+    text-align: left;
+  }
+  .priv .checks li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10.5px;
+    color: var(--j-text);
+  }
+  .priv .tick {
+    color: var(--j-gold);
+    font-weight: 700;
   }
 </style>
