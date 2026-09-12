@@ -5,8 +5,12 @@
 interface Props {
   screenName: string;
   variant: 'lines' | 'streak' | 'calendar' | 'privacy';
+  /** Localized caption inside the streak / privacy motifs. */
+  note?: string;
 }
-const { screenName, variant } = Astro.props;
+const { screenName, variant, note } = Astro.props;
+const streakNote = note ?? 'day streak';
+const privacyNote = note ?? 'On your device';
 const romans = ['i', 'ii', 'iii', 'iv', 'v'];
 // 28 cells for a mini month grid; a few marked as "filled".
 const days = Array.from({ length: 28 }, (_, i) => i);
@@ -39,7 +43,7 @@ const filled = new Set([2, 3, 4, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 25]);
               />
             </svg>
             <span class="big">12</span>
-            <span class="small">day streak</span>
+            <span class="small">{streakNote}</span>
           </div>
         )
       }
@@ -74,7 +78,7 @@ const filled = new Set([2, 3, 4, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 25]);
               />
               <circle cx="12" cy="15" r="1.4" fill="currentColor" />
             </svg>
-            <span class="small">On your device</span>
+            <span class="small">{privacyNote}</span>
           </div>
         )
       }

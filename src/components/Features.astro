@@ -1,42 +1,11 @@
 ---
 import PhoneFrame from './PhoneFrame.astro';
+import type { Feature } from '../data/site';
 
-type Variant = 'lines' | 'streak' | 'calendar' | 'privacy';
-interface Feature {
-  variant: Variant;
-  screenName: string;
-  title: string;
-  body: string;
+interface Props {
+  features: Feature[];
 }
-
-// English copy (site default). Swedish translation arrives with the language
-// switch (Story 5).
-const features: Feature[] = [
-  {
-    variant: 'lines',
-    screenName: 'Today',
-    title: 'Five lines a day',
-    body: 'A calm, focused space — write five things you are grateful for. No feeds, no clutter, no endless scrolling. Just today.',
-  },
-  {
-    variant: 'streak',
-    screenName: 'Streak',
-    title: 'Build a gentle habit',
-    body: 'Come back each evening and watch your streak grow, one day at a time. An optional reminder gives you a quiet nudge — never a nag.',
-  },
-  {
-    variant: 'calendar',
-    screenName: 'Calendar',
-    title: 'Look back anytime',
-    body: 'Every day is saved to your calendar. Scroll back through months and years and see how much there was to be grateful for.',
-  },
-  {
-    variant: 'privacy',
-    screenName: 'Private',
-    title: '100% private',
-    body: 'No account, no cloud, no tracking. Your notes live on your phone and nowhere else — that is the whole idea.',
-  },
-];
+const { features } = Astro.props;
 ---
 
 <section class="features" aria-label="Features">
@@ -44,7 +13,7 @@ const features: Feature[] = [
     features.map((f, i) => (
       <article class={i % 2 === 1 ? 'row reverse' : 'row'}>
         <div class="art">
-          <PhoneFrame variant={f.variant} screenName={f.screenName} />
+          <PhoneFrame variant={f.variant} screenName={f.screenName} note={f.note} />
         </div>
         <div class="copy">
           <h2>{f.title}</h2>

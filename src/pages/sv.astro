@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Landing from '../components/Landing.astro';
+import { landingSv } from '../data/site';
+---
+
+<Base
+  title={landingSv.meta.title}
+  description={landingSv.meta.description}
+  lang="sv"
+  noindex
+>
+  <Landing content={landingSv} />
+</Base>

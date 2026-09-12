@@ -102,6 +102,6 @@ export const privacySv: PrivacyContent = {
   ],
   altLangHref: '/privacy',
   altLangLabel: 'English',
-  homeHref: '/',
+  homeHref: '/sv',
   homeLabel: '← Munin',
 };
