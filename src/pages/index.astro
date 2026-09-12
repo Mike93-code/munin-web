@@ -1,23 +1,60 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-// Placeholder home page (Story 1). Real hero + landing content arrives in Story 3–4.
+// PLACEHOLDER icon: this is the app's current (blue) icon. The final gold/raven
+// "Munin" icon is a separate pending task; swap this import when it exists.
+import appIcon from '../assets/app-icon-placeholder.png';
+
 const tagline =
   'Five lines a day. No account. No cloud. Your gratitude stays on your phone.';
+
+// The App Store link does not exist until launch. Set this to the real URL then
+// and the "coming soon" pill becomes a live download button automatically.
+const appStoreUrl: string | null = null;
+
+const trustChips = ['No account', 'No cloud', 'Works offline'];
 ---
 
 <Base
-  title="Munin — coming soon"
+  title="Munin — a private gratitude journal for iPhone"
   description="Munin is a private, minimalist daily gratitude journal for iPhone. No account, no cloud — your notes stay on your device."
   lang="en"
   noindex
 >
   <main class="home">
-    <div class="hero">
+    <section class="hero">
+      <div class="icon-wrap">
+        <Image
+          src={appIcon}
+          alt="Munin app icon"
+          width={224}
+          height={224}
+          class="app-icon"
+          loading="eager"
+        />
+      </div>
+
       <p class="kicker">Munin: Gratitude Journal</p>
       <h1>Munin</h1>
       <p class="tagline">{tagline}</p>
-      <p class="soon">Website coming soon.</p>
-    </div>
+
+      <div class="cta">
+        {
+          appStoreUrl ? (
+            <a class="store-btn" href={appStoreUrl}>
+              Download on the App&nbsp;Store
+            </a>
+          ) : (
+            <span class="store-soon">Coming soon to the App&nbsp;Store</span>
+          )
+        }
+      </div>
+
+      <ul class="chips" aria-label="Highlights">
+        {trustChips.map((chip) => <li>{chip}</li>)}
+      </ul>
+    </section>
+
     <footer class="foot">
       <a href="/privacy">Privacy Policy</a>
       <span aria-hidden="true">·</span>
@@ -31,15 +68,41 @@ const tagline =
       display: grid;
       grid-template-rows: 1fr auto;
       padding: 24px;
-      text-align: center;
     }
     .hero {
       align-self: center;
-      max-width: 34rem;
+      max-width: 36rem;
       margin: 0 auto;
+      text-align: center;
+    }
+    .icon-wrap {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 1.75rem;
+    }
+    /* soft gold halo behind the icon */
+    .icon-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -28%;
+      background: radial-gradient(
+        circle,
+        rgba(212, 175, 55, 0.28),
+        rgba(212, 175, 55, 0) 70%
+      );
+      z-index: 0;
+    }
+    .app-icon {
+      position: relative;
+      z-index: 1;
+      width: 112px;
+      height: 112px;
+      border-radius: 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
     }
     .kicker {
-      margin: 0 0 0.75rem;
+      margin: 0 0 0.6rem;
       font-size: 0.8rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -53,13 +116,52 @@ const tagline =
     }
     .tagline {
       margin: 1.25rem auto 0;
+      max-width: 30rem;
       font-size: clamp(1.05rem, 2.6vw, 1.35rem);
       color: var(--ink);
     }
-    .soon {
-      margin-top: 2.5rem;
+    .cta {
+      margin-top: 2rem;
+    }
+    .store-btn {
+      display: inline-block;
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--bg);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .store-btn:hover {
+      opacity: 0.9;
+    }
+    .store-soon {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      color: var(--gold);
       font-size: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+    .chips {
+      list-style: none;
+      margin: 2rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      justify-content: center;
       color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .chips li {
+      position: relative;
+    }
+    .chips li + li::before {
+      content: '·';
+      position: absolute;
+      left: -0.75rem;
     }
     .foot {
       padding: 1.5rem 0 0.5rem;
