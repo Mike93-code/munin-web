@@ -1,0 +1,82 @@
+---
+import type { PrivacyContent } from '../data/privacy';
+interface Props {
+  content: PrivacyContent;
+}
+const { content } = Astro.props;
+---
+
+<main class="policy">
+  <nav class="topnav" aria-label={content.lang === 'sv' ? 'Sidnavigering' : 'Page navigation'}>
+    <a href={content.homeHref}>{content.homeLabel}</a>
+    <a href={content.altLangHref} rel="alternate" hreflang={content.altLangHref === '/privacy' ? 'en' : 'sv'}>
+      {content.altLangLabel}
+    </a>
+  </nav>
+
+  <header class="policy-head">
+    <h1>{content.title}</h1>
+    <p class="updated">{content.lastUpdated}</p>
+    <p class="intro">{content.intro}</p>
+  </header>
+
+  {
+    content.sections.map((section) => (
+      <section class="policy-section">
+        <h2>{section.heading}</h2>
+        <p>{section.body}</p>
+      </section>
+    ))
+  }
+</main>
+
+<style>
+  .policy {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+  .topnav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .topnav a {
+    text-decoration: none;
+  }
+  .topnav a:hover {
+    text-decoration: underline;
+  }
+  .policy-head {
+    border-bottom: 1px solid rgba(244, 241, 232, 0.12);
+    padding-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.01em;
+  }
+  .updated {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .intro {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .policy-section h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 2rem 0 0.5rem;
+  }
+  .policy-section p {
+    margin: 0;
+    color: var(--ink);
+  }
+</style>

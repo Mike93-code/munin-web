@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PrivacyPolicy from '../components/PrivacyPolicy.astro';
+import { privacyEn } from '../data/privacy';
+---
+
+<Base
+  title={privacyEn.documentTitle}
+  description="How Munin, the private gratitude journal for iPhone, handles your data: no account, no tracking, notes stay on your device."
+  lang="en"
+>
+  <PrivacyPolicy content={privacyEn} />
+</Base>

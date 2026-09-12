@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PrivacyPolicy from '../components/PrivacyPolicy.astro';
+import { privacySv } from '../data/privacy';
+---
+
+<Base
+  title={privacySv.documentTitle}
+  description="Så hanterar Munin, den privata tacksamhetsdagboken för iPhone, dina uppgifter: inget konto, ingen spårning, allt stannar på din enhet."
+  lang="sv"
+>
+  <PrivacyPolicy content={privacySv} />
+</Base>
