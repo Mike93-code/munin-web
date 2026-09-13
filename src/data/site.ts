@@ -40,6 +40,14 @@ export interface Feature {
   screen: FeatureScreen;
 }
 
+/** The "Why Munin?" name-story section. */
+export interface SiteStory {
+  heading: string;
+  paragraphs: string[];
+  /** The app's own evening reminder line, shown as a pull-quote. */
+  reminderQuote: string;
+}
+
 export interface LandingContent {
   lang: 'en' | 'sv';
   meta: { title: string; description: string };
@@ -50,6 +58,7 @@ export interface LandingContent {
   storeCta: string;
   chips: string[];
   features: Feature[];
+  story: SiteStory;
   langSwitchHref: string;
   langSwitchLabel: string;
   privacyHref: string;
@@ -119,6 +128,15 @@ export const landingEn: LandingContent = {
       },
     },
   ],
+  story: {
+    heading: "Why ‘Munin’?",
+    paragraphs: [
+      'In Norse mythology, Odin kept two ravens. One was Huginn — “thought”. The other was Muninn — “memory”. Every evening Muninn returned from flying over the world and told Odin what it had seen that day.',
+      'That is the quiet ritual this app is built around: at the end of each day you look back and keep what was worth remembering — five small things you are grateful for. It is named after the raven of memory because that is exactly what it helps you hold on to.',
+      'The idea is old. Norse wisdom poetry like the Hávamál celebrates the simple things — warmth, health, a day lived well — the very things gratitude asks us to notice. Munin brings that thousand-year-old habit to your phone, and keeps it entirely private.',
+    ],
+    reminderQuote: 'Munin has returned — what did you see today?',
+  },
   langSwitchHref: '/sv',
   langSwitchLabel: 'Svenska',
   privacyHref: '/privacy',
@@ -188,6 +206,15 @@ export const landingSv: LandingContent = {
       },
     },
   ],
+  story: {
+    heading: 'Varför ”Munin”?',
+    paragraphs: [
+      'I nordisk mytologi hade Oden två korpar. Den ena var Hugin — ”tanke”. Den andra var Munin — ”minne”. Varje kväll återvände Munin från sin flykt över världen och berättade för Oden vad den hade sett under dagen.',
+      'Det är just den stilla ritualen appen bygger på: i slutet av varje dag blickar du tillbaka och behåller det som var värt att minnas — fem små saker du är tacksam för. Den är uppkallad efter minnets korp, för det är precis vad den hjälper dig att bevara.',
+      'Tanken är gammal. Fornnordisk visdomsdikt som Hávamál hyllar de enkla tingen — värme, hälsa, en dag som levts väl — precis det som tacksamhet ber oss lägga märke till. Munin tar med den tusenåriga vanan till din telefon, och håller den helt privat.',
+    ],
+    reminderQuote: 'Munin har återvänt — vad såg du idag?',
+  },
   langSwitchHref: '/',
   langSwitchLabel: 'English',
   privacyHref: '/integritetspolicy',

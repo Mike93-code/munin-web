@@ -1,0 +1,68 @@
+---
+import type { SiteStory } from '../data/site';
+interface Props {
+  story: SiteStory;
+}
+const { story } = Astro.props;
+---
+
+<section class="story" aria-label={story.heading}>
+  <div class="inner">
+    <h2>{story.heading}</h2>
+    {story.paragraphs.map((p) => <p>{p}</p>)}
+
+    <blockquote class="reminder">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M20 3s-6 .4-10 4.2C6.7 10.3 5 14 4 20c.6-1.8 1.7-3.4 3.2-4.6C6.6 17 6.2 18.4 6 20c2.7-.4 4.8-1.2 6.4-2.4 3.9-2.9 5.4-8 7.6-14.6z"
+        />
+      </svg>
+      <span>{story.reminderQuote}</span>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .story {
+    border-top: 1px solid rgba(244, 241, 232, 0.1);
+    margin-top: 3rem;
+    padding: 3.5rem 1.25rem 0;
+  }
+  .inner {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+  h2 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 600;
+    color: var(--gold);
+    text-align: center;
+  }
+  p {
+    margin: 0 0 1.1rem;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .reminder {
+    margin: 2rem 0 0;
+    padding: 1.1rem 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 14px;
+    background: rgba(212, 175, 55, 0.06);
+  }
+  .reminder svg {
+    color: var(--gold);
+    flex: none;
+  }
+  .reminder span {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--ink);
+  }
+</style>
