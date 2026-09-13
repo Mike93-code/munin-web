@@ -1,0 +1,42 @@
+---
+// Small inline-SVG flags (crisp on every OS — unlike emoji flags, which do not
+// render as flags on Windows). 'sv' = Sweden, 'en' = United Kingdom.
+interface Props {
+  code: 'sv' | 'en';
+}
+const { code } = Astro.props;
+---
+
+{
+  code === 'sv' ? (
+    <svg class="flag" viewBox="0 0 16 10" width="20" height="12.5" aria-hidden="true">
+      <rect width="16" height="10" fill="#006aa7" />
+      <rect x="0" y="4" width="16" height="2" fill="#fecc00" />
+      <rect x="5" y="0" width="2" height="10" fill="#fecc00" />
+    </svg>
+  ) : (
+    <svg class="flag" viewBox="0 0 60 36" width="20" height="12" aria-hidden="true">
+      <rect width="60" height="36" fill="#012169" />
+      <g stroke="#fff" stroke-width="7">
+        <path d="M0 0 60 36" />
+        <path d="M60 0 0 36" />
+      </g>
+      <g stroke="#c8102e" stroke-width="3">
+        <path d="M0 0 60 36" />
+        <path d="M60 0 0 36" />
+      </g>
+      <rect x="24" width="12" height="36" fill="#fff" />
+      <rect y="12" width="60" height="12" fill="#fff" />
+      <rect x="26" width="8" height="36" fill="#c8102e" />
+      <rect y="14" width="60" height="8" fill="#c8102e" />
+    </svg>
+  )
+}
+
+<style>
+  .flag {
+    display: block;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(244, 241, 232, 0.25);
+  }
+</style>
