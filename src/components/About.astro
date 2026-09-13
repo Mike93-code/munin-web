@@ -1,0 +1,42 @@
+---
+import type { AboutSection } from '../data/site';
+interface Props {
+  about: AboutSection;
+}
+const { about } = Astro.props;
+---
+
+<section class="about" aria-label={about.heading}>
+  <div class="inner">
+    <h2>{about.heading}</h2>
+    {about.paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</section>
+
+<style>
+  .about {
+    border-top: 1px solid rgba(244, 241, 232, 0.1);
+    margin-top: 3rem;
+    padding: 3.5rem 1.25rem 0;
+  }
+  .inner {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+  h2 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    font-weight: 600;
+    color: var(--gold);
+    text-align: center;
+  }
+  p {
+    margin: 0 0 1.1rem;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+</style>

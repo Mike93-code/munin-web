@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Features from './Features.astro';
+import About from './About.astro';
 import Story from './Story.astro';
 import Faq from './Faq.astro';
 import { appStoreUrl, type LandingContent } from '../data/site';
@@ -52,6 +53,8 @@ const { content } = Astro.props;
   </section>
 
   <Features features={content.features} />
+
+  <About about={content.about} />
 
   <Story story={content.story} />
 

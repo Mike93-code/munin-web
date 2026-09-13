@@ -40,6 +40,12 @@ export interface Feature {
   screen: FeatureScreen;
 }
 
+/** The "About Munin" section — why the app exists. */
+export interface AboutSection {
+  heading: string;
+  paragraphs: string[];
+}
+
 /** The "Why Munin?" name-story section. */
 export interface SiteStory {
   heading: string;
@@ -64,6 +70,7 @@ export interface LandingContent {
   storeCta: string;
   chips: string[];
   features: Feature[];
+  about: AboutSection;
   story: SiteStory;
   faqHeading: string;
   faq: FaqItem[];
@@ -136,6 +143,14 @@ export const landingEn: LandingContent = {
       },
     },
   ],
+  about: {
+    heading: 'About Munin',
+    paragraphs: [
+      'Munin started with a small frustration: most gratitude apps ask you to create an account, hand over your data, and pay a monthly fee — for something that should be a quiet, personal habit.',
+      'So Munin was built the other way around. No account. No cloud. No tracking, no ads, nothing to subscribe to. Just five lines a day, kept private on your phone.',
+      'It is deliberately small and calm — no feeds, no badges to chase, no pressure. The goal is not to capture your attention, but to give you a minute with your own thoughts, and let you keep them.',
+    ],
+  },
   story: {
     heading: "Why ‘Munin’?",
     paragraphs: [
@@ -241,6 +256,14 @@ export const landingSv: LandingContent = {
       },
     },
   ],
+  about: {
+    heading: 'Om Munin',
+    paragraphs: [
+      'Munin började med en liten irritation: de flesta tacksamhetsappar vill att du skapar ett konto, lämnar ifrån dig dina uppgifter och betalar en månadsavgift — för något som borde vara en stilla, personlig vana.',
+      'Så Munin byggdes tvärtom. Inget konto. Inget moln. Ingen spårning, inga annonser, inget att prenumerera på. Bara fem rader om dagen, privat på din telefon.',
+      'Den är medvetet liten och lugn — inga flöden, inga märken att jaga, ingen press. Målet är inte att fånga din uppmärksamhet, utan att ge dig en stund med dina egna tankar — och låta dig behålla dem.',
+    ],
+  },
   story: {
     heading: 'Varför ”Munin”?',
     paragraphs: [
