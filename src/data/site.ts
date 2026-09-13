@@ -48,6 +48,12 @@ export interface SiteStory {
   reminderQuote: string;
 }
 
+/** One question/answer in the FAQ. */
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface LandingContent {
   lang: 'en' | 'sv';
   meta: { title: string; description: string };
@@ -59,6 +65,8 @@ export interface LandingContent {
   chips: string[];
   features: Feature[];
   story: SiteStory;
+  faqHeading: string;
+  faq: FaqItem[];
   langSwitchHref: string;
   langSwitchLabel: string;
   privacyHref: string;
@@ -137,6 +145,33 @@ export const landingEn: LandingContent = {
     ],
     reminderQuote: 'Munin has returned — what did you see today?',
   },
+  faqHeading: 'Common questions',
+  faq: [
+    {
+      q: 'Is Munin free?',
+      a: 'Yes. Munin is free to download and use — no subscription and no ads.',
+    },
+    {
+      q: 'Do I need an account?',
+      a: 'No. There is no sign-up and no email required. You open the app and start writing.',
+    },
+    {
+      q: 'Where are my notes stored?',
+      a: 'Only on your iPhone. Munin has no server and never receives what you write — nothing is uploaded to a cloud and nothing is tracked.',
+    },
+    {
+      q: 'Does it work offline?',
+      a: 'Completely. Munin needs no internet connection — everything happens on your device.',
+    },
+    {
+      q: 'What happens if I get a new phone?',
+      a: 'Your notes are included in your normal iPhone backup (iCloud or a computer), so they come with you when you switch — but even then they never pass through us.',
+    },
+    {
+      q: 'What do I write each day?',
+      a: 'Five short lines about things you are grateful for. Gentle prompts help you start, and everything saves automatically as you type.',
+    },
+  ],
   langSwitchHref: '/sv',
   langSwitchLabel: 'Svenska',
   privacyHref: '/privacy',
@@ -215,6 +250,33 @@ export const landingSv: LandingContent = {
     ],
     reminderQuote: 'Munin har återvänt — vad såg du idag?',
   },
+  faqHeading: 'Vanliga frågor',
+  faq: [
+    {
+      q: 'Är Munin gratis?',
+      a: 'Ja. Munin är gratis att ladda ner och använda — ingen prenumeration och inga annonser.',
+    },
+    {
+      q: 'Behöver jag ett konto?',
+      a: 'Nej. Ingen registrering och ingen e-post krävs. Du öppnar appen och börjar skriva.',
+    },
+    {
+      q: 'Var lagras mina anteckningar?',
+      a: 'Bara på din iPhone. Munin har ingen server och tar aldrig emot det du skriver — inget laddas upp till något moln och inget spåras.',
+    },
+    {
+      q: 'Fungerar den offline?',
+      a: 'Helt och hållet. Munin behöver ingen internetuppkoppling — allt sker på din enhet.',
+    },
+    {
+      q: 'Vad händer om jag byter telefon?',
+      a: 'Dina anteckningar följer med i din vanliga iPhone-backup (iCloud eller dator), så de finns kvar när du byter — men även då passerar de aldrig oss.',
+    },
+    {
+      q: 'Vad skriver jag varje dag?',
+      a: 'Fem korta rader om saker du är tacksam för. Milda ledtrådar hjälper dig igång, och allt sparas automatiskt medan du skriver.',
+    },
+  ],
   langSwitchHref: '/',
   langSwitchLabel: 'English',
   privacyHref: '/integritetspolicy',

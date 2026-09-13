@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Features from './Features.astro';
 import Story from './Story.astro';
+import Faq from './Faq.astro';
 import { appStoreUrl, type LandingContent } from '../data/site';
 // The Munin app icon (gold feather on dark ground), shared with the iOS app.
 import appIcon from '../assets/app-icon.png';
@@ -53,6 +54,8 @@ const { content } = Astro.props;
   <Features features={content.features} />
 
   <Story story={content.story} />
+
+  <Faq heading={content.faqHeading} items={content.faq} />
 
   <footer class="foot">
     <a href={content.privacyHref}>{content.privacyLabel}</a>
